@@ -11,13 +11,13 @@ def predict():
     if request.method == 'POST':
         try:
             data = request.get_json()
-            age = float(data['age'])
+            lstat = float(data['LSTAT'])
 
             lin_reg = joblib.load('linear_regression_model.pkl')
         except ValueError:
             return jsonify('Please enter a number.')
 
-        return jsonify(lin_reg.predict(age).tolist())
+        return jsonify(lin_reg.predict(lstat).tolist())
 
 if __name__ == '__main__':
     app.run(debug=True)
