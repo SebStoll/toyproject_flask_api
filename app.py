@@ -1,23 +1,33 @@
-from flask import Flask, jsonify, request
-from sklearn.externals import joblib
+from flask import Flask # , jsonify, request
+from flask_restplus import Api, Resource
+# from sklearn.externals import joblib
 app = Flask(__name__)
+api = Api(app, version='0.1', title='...title...',
+          description='...description...', contact='...contact...')
 
-@app.route('/')
-def hello():
-    return 'Hello World!'
+ns = api.namespace('namespace', description='...description...')
 
-@app.route('/predict', methods=['POST'])
-def predict():
-    if request.method == 'POST':
-        try:
-            data = request.get_json()
-            lstat = float(data['LSTAT'])
+@ns.route('/hello')
+class HelloWorld(Resource):
+    def get(self):
+        return {'hello': 'world'}
 
-            lin_reg = joblib.load('linear_regression_model.pkl')
-        except ValueError:
-            return jsonify('Please enter a number.')
-
-        return jsonify(lin_reg.predict(lstat).tolist())
+@ns.route('/hi')
+class HiYou(Resource):
+    def get(self):
+        return {'hi': 'you'}
+#@api.route('/predict', methods=['POST'])
+#def predict():
+#    if request.method == 'POST':
+#        try:
+#            data = request.get_json()
+#            lstat = float(data['LSTAT'])
+#
+#            lin_reg = joblib.load('linear_regression_model.pkl')
+#        except ValueError:
+#            return jsonify('Please enter a number.')
+#
+#        return jsonify(lin_reg.predict(lstat).tolist())
 
 if __name__ == '__main__':
     app.run(debug=True)
