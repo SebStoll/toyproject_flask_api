@@ -16,6 +16,14 @@ class HelloWorld(Resource):
 class HiYou(Resource):
     def get(self):
         return {'hi': 'you'}
+
+
+# The following can be called via 127.0.0.1:5000/approute,
+# but is not displayed in Swagger 
+@app.route('/approute')
+def approute_test():
+    return 'approute - test'
+
 #@api.route('/predict', methods=['POST'])
 #def predict():
 #    if request.method == 'POST':
