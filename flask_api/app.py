@@ -1,4 +1,6 @@
 import sys
+import logging
+from logging.handlers import RotatingFileHandler
 
 from flask import Flask, Blueprint
 import settings
@@ -33,8 +35,24 @@ def initialize_app(flask_app):
     #api.init_app(flask_app)
     
 def main():
+    logging.basicConfig(level=logging.DEBUG)
+    logger = logging.getLogger(__name__)
+    
+    # create a file handler
+    handler = RotatingFileHandler('TEST_LOG.log', maxBytes=1e6, backupCount=5)
+    handler.setLevel(logging.DEBUG)  
+    
+    # create a logging format
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    handler.setFormatter(formatter) 
+    
+    # add the handlers to the logger
+    logger.addHandler(handler)    
+    
+    logger.info('Initialize app')
     initialize_app(app)
-    app.run(debug=settings.FLASK_DEBUG)
+    logger.debug('Initialization done')
+    app.run(debug=settings.FLASK_DEBUG)   
     
 if __name__=='__main__':
     main()
