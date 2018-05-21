@@ -13,7 +13,7 @@ print(sys.path)
 app = Flask(__name__)
 
 
-
+# Configure app
 def configure_app(flask_app):
     #flask_app.config['SERVER_NAME'] = settings.FLASK_SERVER_NAME
     #flask_app.config['SQLALCHEMY_DATABASE_URI'] = settings.SQLALCHEMY_DATABASE_URI
